@@ -54,7 +54,7 @@ The handout says the overflow should occur **at iteration 4**, but with a thresh
 
 ---
 
-## Bug 3: Missing random seed
+## Bug 3: Missing random seed: non-reproducibility
 
 - **Location:** `random.choice(decisions)` (original line 24) with no seed set anywhere (`run_pipeline`, original line 19).
 - **Category:** *[non-determinism / non-reproducibility]*
@@ -95,4 +95,4 @@ INFO iter=5 answer='summary:[ITER 5] broaden: paper-0, paper-1, paper-2'
 
 - **The crash hid everything else.** The original traceback said *where* the program failed but not *at which iteration* or *by how much*, so it was not enough to reproduce the failure. Logging `i` and `len(prompt)` was the key step.
 
-- **The context looked useless.** In this toy script nothing reads the history (`fake_llm` returns the last 60 chars and the strategy is random). I still bounded it instead of deleting it, because in a real agent the history carries memory of failed strategies and accumulated evidence. Therefore, I tried implementing a solution that relates more to an actual real llm handling this situation: context suppression.
+- **The context looked useless.** In this toy script nothing reads the history (`fake_llm` returns the last 60 chars and the strategy is random). I still bounded it instead of deleting it, because in a real agent the history carries memory of failed strategies and accumulated evidence. Therefore, I tried implementing a solution that relates more to a real llm handling this situation: context compression and context trimming.
